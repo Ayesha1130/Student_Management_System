@@ -1,20 +1,25 @@
+#! /usr/bin/env node
 import chalk from "chalk";
 import inquirer from "inquirer";
+// create a class that represents the current state of the application
 class Student {
     static counter = 10000;
     id;
     name;
     balance;
     courses;
+    // constructor 
     constructor(name) {
         this.id = Student.counter++;
         this.name = name;
         this.balance = 100;
         this.courses = [];
     }
+    // add a method to enroll a student in a course
     enroll_course(course) {
         this.courses.push(course);
     }
+    // add a method to view the balance of a student
     view_balance() {
         console.log(`balance for ${this.name} ${this.balance}`);
     }
@@ -23,6 +28,7 @@ class Student {
         console.log(`$${amount} paid successfully ${this.name}`);
         console.log(`Remaining Balance: $${this.balance}`);
     }
+    // add a method to view the status of a student
     show_status() {
         console.log(`ID: ${this.id}`);
         console.log(`Course: ${this.courses}`);
@@ -30,16 +36,19 @@ class Student {
         console.log(`Balance: ${this.balance}`);
     }
 }
+// create a new instance of the Course object
 class Student_menager {
     students;
     constructor() {
         this.students = [];
     }
+    // add a method to add a new student to the application
     add_students(name) {
         let student = new Student(name);
         this.students.push(student);
         console.log(chalk.green(`Student: ${name} Added successfully ${student.id}`));
     }
+    // add a method to enroll a student in a course
     enroll_students(student_id, course) {
         let student = this.find_student(student_id);
         if (student) {
@@ -47,6 +56,7 @@ class Student_menager {
             console.log(chalk.magenta(`${student.name} enroll in ${course} Successfully`));
         }
     }
+    // add a method to view the balance of a student
     view_student_balance(student_id) {
         let student = this.find_student(student_id);
         if (student) {
@@ -56,6 +66,7 @@ class Student_menager {
             console.log(chalk.red("Student not found"));
         }
     }
+    // add a method to pay the fees of a student
     pay_student_fees(student_id, amount) {
         let student = this.find_student(student_id);
         if (student) {
@@ -65,12 +76,14 @@ class Student_menager {
             console.log("Student not found");
         }
     }
+    // add a method to view the status of a student
     show_student_status(student_id) {
         let student = this.find_student(student_id);
         if (student) {
             student.show_status();
         }
     }
+    // method find student by id
     find_student(student_id) {
         return this.students.find(student => student.id === student_id);
     }
@@ -95,6 +108,7 @@ async function main() {
                 ],
             },
         ]);
+        // using switch statement to determine which variables are available
         switch (choice.choice) {
             case "Add student":
                 let name_input = await inquirer.prompt([
